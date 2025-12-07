@@ -18,7 +18,7 @@ typedef struct {
     int valueInput;
 } inputs_t;
 
-struct gpiod_line_request *req;
+struct gpiod_line_request *reqOutput;
 inputs_t inputs[eNUMBER_OF_INPUTS];
 
 /* ============================================================
@@ -29,7 +29,7 @@ inputs_t inputs[eNUMBER_OF_INPUTS];
  *  Public functions
  * ============================================================*/
 
-void input_Init(gpiod_chip *chip) {
+void input_Init(struct gpiod_chip *chip) {
 
     /* Assign GPIO number for the input */
     inputs[eBUTTON_1].gpioInput = GPIO_BUTTON_1;
@@ -48,14 +48,14 @@ void input_Init(gpiod_chip *chip) {
         settings
     );
 
-    req = gpiod_chip_request_lines(chip, NULL, line_cfg);
-    if (!req) {
+    reqOutput = gpiod_chip_request_lines(chip, NULL, line_cfg);
+    if (!reqOutput) {
         perror("Failed to request input line");
     }
 }
 
 void input_RequestRelease() {
-    gpiod_line_request_release(req);
+    gpiod_line_request_release(reqOutput);
 }
 
 int input_GetValue(inputsName_t input) {

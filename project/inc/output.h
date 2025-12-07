@@ -20,10 +20,6 @@ typedef enum {
     eNUMBER_OF_OUTPUTS,
 } outputsName_t;
 
-typedef struct {
-    unsigned int gpioOutput;
-    unsigned int valueOutput;
-} outputs_t;
 /* ============================================================
  *  Extern Variables
  * ============================================================*/
@@ -32,6 +28,6 @@ typedef struct {
 /* ============================================================
  *  Function Prototypes
  * ============================================================*/
-void output_Init(gpiod_chip *chip);
+void output_Init(struct gpiod_chip *chip);
 void output_RequestRelease();
 #endif /* OUTPUT_H */

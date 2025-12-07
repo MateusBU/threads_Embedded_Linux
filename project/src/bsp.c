@@ -1,4 +1,6 @@
 #include "bsp.h"
+#include "input.h"
+#include "output.h"
 
 #include <gpiod.h>
 #include <stdio.h>
@@ -34,7 +36,7 @@ void bsp_Init() {
     }
 
     input_Init(chip);
-    output_Init(gpiod_chip *chip);
+    output_Init(chip);
 }
 
 void bsp_closeGPIOs() {

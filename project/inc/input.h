@@ -14,11 +14,6 @@
  *  Typedefs / Enums / Structs
  * ============================================================*/
 
-typedef struct {
-    unsigned int gpioInput;
-    int valueInput;
-} inputs_t;
-
 typedef enum {
     eBUTTON_1,
     eNUMBER_OF_INPUTS,
@@ -32,7 +27,7 @@ typedef enum {
 /* ============================================================
  *  Function Prototypes
  * ============================================================*/
-void input_Init(gpiod_chip *chip);
+void input_Init(struct gpiod_chip *chip);
 void input_RequestRelease();
 int input_GetValue(inputsName_t input);
 

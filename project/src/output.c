@@ -17,7 +17,7 @@ typedef struct {
     unsigned int gpioOutput;
     unsigned int valueOutput;
 } outputs_t;
-struct gpiod_line_request *req;
+struct gpiod_line_request *reqInput;
 
 outputs_t outputs[eNUMBER_OF_OUTPUTS];
 /* ============================================================
@@ -27,7 +27,7 @@ outputs_t outputs[eNUMBER_OF_OUTPUTS];
 /* ============================================================
  *  Public functions
  * ============================================================*/
-void output_Init(gpiod_chip *chip) {
+void output_Init(struct gpiod_chip *chip) {
 
     /* Assign GPIO number for the output */
     outputs[eLED_YELLOW].gpioOutput = GPIO_YELLOW_LED;
@@ -44,8 +44,8 @@ void output_Init(gpiod_chip *chip) {
         settings
     );
 
-    req = gpiod_chip_request_lines(chip, NULL, line_cfg);
-    if (!req) {
+    reqInput = gpiod_chip_request_lines(chip, NULL, line_cfg);
+    if (!reqInput) {
         perror("Failed to request line");
         return;
     }
@@ -54,7 +54,7 @@ void output_Init(gpiod_chip *chip) {
 }
 
 void output_RequestRelease() {
-    gpiod_line_request_release(req);
+    gpiod_line_request_release(reqInput);
 }
 
 /* ============================================================
