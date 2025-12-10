@@ -65,7 +65,7 @@ void output_SetValue(outputsName_t output, bool value) {
 }
 void output_Periodic(void) {
     for(int i = 0; i < eNUMBER_OF_OUTPUTS; i++) {
-        gpiod_line_request_set_value(reqLedYellow, outputs[i].gpioOutput, outputs[i].valueOutput);
+        gpiod_line_request_set_value(reqOutput, outputs[i].gpioOutput, outputs[i].valueOutput);
     }
 }
 

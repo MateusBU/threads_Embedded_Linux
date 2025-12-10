@@ -31,5 +31,7 @@ void input_Init(struct gpiod_chip *chip);
 void input_RequestRelease();
 int input_GetValue(inputsName_t input);
 void input_Periodic();
+bool input_GetRise(inputsName_t input);
+bool input_GetFall(inputsName_t input);
 
 #endif /* INPUT_H */

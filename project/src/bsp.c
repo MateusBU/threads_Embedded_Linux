@@ -37,6 +37,7 @@ void bsp_Init() {
 
     input_Init(chip);
     output_Init(chip);
+    printf("output_Init: %d", 1);
 }
 
 void bsp_closeGPIOs() {

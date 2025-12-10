@@ -2,6 +2,7 @@
 #include <pthread.h>
 #include <unistd.h>
 
+#include "app.h"
 #include "bsp.h"
 #include "input.h"
 #include "output.h"
@@ -42,7 +43,7 @@ void* app_task(void *arg) {
 
     for(;;) {
         app_Periodic();
-        usleep(10000);
+        usleep(100000);
     }
 }
 

@@ -5,6 +5,7 @@
 #include "app.h"
 #include "input.h"
 #include "output.h"
+#include <stdio.h>
 
 /* ============================================================
  *  Defines
@@ -24,10 +25,11 @@ static void app_ConfigLed();
  * ============================================================*/
 void app_Periodic() {
 
-    if(input_GetValue(eBUTTON_1)) {
+    if(input_GetRise(eBUTTON_1)) {
         if(++counter > dLIMIT_COUNTER) {
             counter = 0;
         }
+        printf("COUNTER: %d\n", counter);
     }
 
     app_ConfigLed();
@@ -37,9 +39,9 @@ void app_Periodic() {
  *  Private functions (static)
  * ============================================================*/
 static void app_ConfigLed() {
-
-    static int blink = 0;
-    static int timeCounter = 0;
+    
+    static bool blink = 0;
+    static unsigned short timeCounter = 0;
 
     switch(counter)
     {
@@ -62,9 +64,12 @@ static void app_ConfigLed() {
             {
                 output_SetValue(eLED_YELLOW, 1);
             }
-            else if(timeCounter < 22)
+            else if(timeCounter > 22)
             {
                 timeCounter = 0;
+            }
+            else
+            {
                 output_SetValue(eLED_YELLOW, 0);
             }
         break;
