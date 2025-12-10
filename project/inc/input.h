@@ -30,5 +30,6 @@ typedef enum {
 void input_Init(struct gpiod_chip *chip);
 void input_RequestRelease();
 int input_GetValue(inputsName_t input);
+void input_Periodic();
 
 #endif /* INPUT_H */

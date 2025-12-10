@@ -1,12 +1,9 @@
-#ifndef OUTPUT_H
-#define OUTPUT_H
+#ifndef APP_H
+#define APP_H
 
 /* ============================================================
  *  Includes
  * ============================================================*/
-
-#include <gpiod.h>
-#include <stdbool.h>
 
 /* ============================================================
  *  Defines / Macros
@@ -16,11 +13,6 @@
  *  Typedefs / Enums / Structs
  * ============================================================*/
 
-typedef enum {
-    eLED_YELLOW,
-    eNUMBER_OF_OUTPUTS,
-} outputsName_t;
-
 /* ============================================================
  *  Extern Variables
  * ============================================================*/
@@ -29,8 +21,6 @@ typedef enum {
 /* ============================================================
  *  Function Prototypes
  * ============================================================*/
-void output_Init(struct gpiod_chip *chip);
-void output_RequestRelease();
-void output_Periodic();
-void output_SetValue(outputsName_t output, bool value);
-#endif /* OUTPUT_H */
+void app_Periodic();
+
+#endif /* APP_H */

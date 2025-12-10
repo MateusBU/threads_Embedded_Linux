@@ -17,8 +17,8 @@
 /* ============================================================
 *  Static (private) functions
 * ============================================================*/
-void* blink_led(void *arg);
-void* read_sensor(void *arg);
+void* app_task(void *arg);
+void* gpio_task(void *arg);
 
 /* ============================================================
  *  Public functions
@@ -27,9 +27,9 @@ void* read_sensor(void *arg);
 int main(void) {
     pthread_t th1, th2;
 
-    pthread_create(&th1, NULL, blink_led, NULL);
+    pthread_create(&th1, NULL, app_task, NULL);
 
-    pthread_create(&th2, NULL, read_sensor, NULL);
+    pthread_create(&th2, NULL, gpio_task, NULL);
 
     pthread_join(th1, NULL);
     pthread_join(th2, NULL);
@@ -37,20 +37,22 @@ int main(void) {
     return 0;
 }
 
-void* blink_led(void *arg) {
-    printf("Config LED\n");
+void* app_task(void *arg) {
+    printf("Config APP\n");
 
     for(;;) {
-        printf("LED Blink \n");
-        usleep(1000000);
+        app_Periodic();
+        usleep(10000);
     }
 }
 
-void* read_sensor(void *arg) {
-    printf("Config SENSOR\n");
+void* gpio_task(void *arg) {
+    printf("Config GPIO I/O\n");
+    bsp_Init();
     
     for(;;) {
-        printf("Sensor read \n");
-        usleep(700000);
+        input_Periodic();
+        output_Periodic();
+        usleep(1000);
     }
 }

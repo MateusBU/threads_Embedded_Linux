@@ -8,7 +8,7 @@
  *  Defines / Macros
  * ============================================================*/
 #define GPIO_BUTTON_1 (22)
-
+#define DEBOUNCE 10
 /* ============================================================
  *  Static (private) variables
  * ============================================================*/
@@ -16,9 +16,11 @@
 typedef struct {
     unsigned int gpioInput;
     int valueInput;
+    int valueHigh;
+    int valueLow;
 } inputs_t;
 
-struct gpiod_line_request *reqOutput;
+struct gpiod_line_request *reqInput;
 inputs_t inputs[eNUMBER_OF_INPUTS];
 
 /* ============================================================
@@ -48,14 +50,14 @@ void input_Init(struct gpiod_chip *chip) {
         settings
     );
 
-    reqOutput = gpiod_chip_request_lines(chip, NULL, line_cfg);
-    if (!reqOutput) {
+    reqInput = gpiod_chip_request_lines(chip, NULL, line_cfg);
+    if (!reqInput) {
         perror("Failed to request input line");
     }
 }
 
 void input_RequestRelease() {
-    gpiod_line_request_release(reqOutput);
+    gpiod_line_request_release(reqInput);
 }
 
 int input_GetValue(inputsName_t input) {
@@ -63,6 +65,30 @@ int input_GetValue(inputsName_t input) {
         return 0;
     }
     return inputs[input].valueInput;
+}
+
+void input_Periodic() {
+
+    for(int i = 0; i < eNUMBER_OF_INPUTS; i++) {
+        int value = gpiod_line_request_get_value(reqInput, inputs[i].gpioInput);
+
+        if(value == 1) {
+            inputs[i].valueLow = 0;
+            if(++inputs[i].valueHigh >= DEBOUNCE)
+            {
+                inputs[i].valueHigh = 0;
+                inputs[i].valueInput = 1;
+            }
+        }
+        else {
+            inputs[i].valueHigh = 0;
+            if(++inputs[i].valueLow >= DEBOUNCE)
+            {
+                inputs[i].valueLow = 0;
+                inputs[i].valueInput = 0;
+            }
+        }
+    }
 }
 /* ============================================================
  *  Private functions (static)
